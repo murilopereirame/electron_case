@@ -1,5 +1,5 @@
 import * as m from "mithril";
-import HelloWorld from "./views/HelloWorld"
+import TaskList from "./views/TaskList"
 import './styles.css'
 
-m.render(document.body, m(HelloWorld))
+m.render(document.body, m(TaskList))

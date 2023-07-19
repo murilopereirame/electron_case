@@ -7,6 +7,13 @@ module.exports = {
         static: {
             directory: path.resolve(__dirname, 'dist'),
         },
+        client: {
+            overlay: {
+                errors: true,
+                warnings: false,
+                runtimeErrors: true
+            }
+        },
         port: 3001,
         open: true,
         hot: true,
