@@ -1,0 +1,48 @@
+{
+  "name": "electron-case",
+  "version": "1.0.0",
+  "description": "A study case of electron",
+  "repository": "https://github.com/murilopereirame/electron-case",
+  "author": "Murilo Pereira",
+  "license": "MIT",
+  "build": {
+    "appId": "br.dev.murilopereira.electron",
+    "mac": {
+      "category": "your.app.category.type"
+    }
+  },
+  "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "build": "tsc && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && webpack && copy \"./public\" \"./dist\"",
+    "watch": "tsc -w",
+    "dev:web": "concurrently \"webpack serve --mode=development\" \"yarn tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\"",
+    "dev:native": "nodemon -e ts --exec yarn start",
+    "start": "yarn build && webpack && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && electron ./dist/App.js"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/mithril": "^2.0.12",
+    "@types/typescript": "^2.0.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.2.0",
+    "css-loader": "^6.8.1",
+    "electron": "^25.3.0",
+    "electron-builder": "^24.4.0",
+    "nodemon": "^3.0.1",
+    "postcss": "^8.4.26",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^9.0.0",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "mithril": "^2.2.2"
+  }
+}
