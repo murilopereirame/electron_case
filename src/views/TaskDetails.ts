@@ -50,7 +50,7 @@ const TaskDetails = () => {
         },
         view: () => {
             return m("div.flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
-                m(Navbar, {title: task.title}),
+                m(Navbar, {title: task.title, onclick: () => m.route.set("/"), icon: "arrow_back_ios"}),
                 m("div.flex flex-col mt-1", SubTask.subtasks.map(task => m(Checkbox, {
                     id: `stk-${task.id}`,
                     label: task.content,

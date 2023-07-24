@@ -14,7 +14,7 @@ export const handleModal = () => {
 
 const TaskList = () => {
     return {
-        oninit: Task.loadList,
+        oninit: () => {Task.loadList(); document.title = "To Do"},
         view: () => {
             return m(".flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
                 m(Navbar),
@@ -22,7 +22,7 @@ const TaskList = () => {
                     id: `tsk-${task.id}`,
                     label: task.title,
                     checked: task.done,
-                    href: `/task/${task.id}`,
+                    href: `#!/task/${task.id}`,
                     disabled: true
                 }))),
                 showModal && m(Overlay, {onclick: handleModal}, [m(NewTaskDialog)]),

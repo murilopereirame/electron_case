@@ -3,7 +3,6 @@ import TaskList from "./views/TaskList"
 import './styles.css'
 import TaskDetails from "./views/TaskDetails";
 
-m.route.prefix = ""
 m.route(document.body, "/", {
     "/task/:id": TaskDetails,
     "/": TaskList
