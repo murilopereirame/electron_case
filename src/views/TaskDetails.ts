@@ -51,15 +51,19 @@ const TaskDetails = () => {
         view: () => {
             return m("div.flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
                 m(Navbar, {title: task.title, onclick: () => m.route.set("/"), icon: "arrow_back_ios"}),
-                m("div.flex flex-col mt-1", SubTask.subtasks.map(task => m(Checkbox, {
-                    id: `stk-${task.id}`,
-                    label: task.content,
-                    checked: task.done,
-                    disabled: false,
-                    onchange: (e: any) => updateSubTask(task.id, e.target.checked)
-                }))),
+                m("div.flex flex-col mt-1",
+                    m("ul", {id: "subtask-list"}, SubTask.subtasks.map(task => m("li",
+                        m(Checkbox, {
+                            id: `stk-${task.id}`,
+                            label: task.content,
+                            checked: task.done,
+                            disabled: false,
+                            onchange: (e: any) => updateSubTask(task.id, e.target.checked)
+                        })))
+                    )
+                ),
                 showModal && m(Overlay, { onclick: handleModal}, [m(NewSubTaskDialog, {onConfirm: handleAddTask})]),
-                m(Fab, {onClick: handleModal})
+                m(Fab, {onClick: handleModal, "data-test": "new-subtask-button"})
             ])
         }
     }
