@@ -19,8 +19,11 @@ const TaskList = () => {
             return m(".flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
                 m(Navbar),
                 m("div.flex flex-col mt-1", Task.list.map(task => m(Checkbox, {
+                    id: `tsk-${task.id}`,
                     label: task.title,
-                    checked: task.done
+                    checked: task.done,
+                    href: `/task/${task.id}`,
+                    disabled: true
                 }))),
                 showModal && m(Overlay, {onclick: handleModal}, [m(NewTaskDialog)]),
                 m(Fab, {onClick: handleModal})

@@ -1,5 +1,10 @@
 import * as m from "mithril";
 import TaskList from "./views/TaskList"
 import './styles.css'
+import TaskDetails from "./views/TaskDetails";
 
-m.mount(document.body, TaskList)
+m.route.prefix = ""
+m.route(document.body, "/", {
+    "/task/:id": TaskDetails,
+    "/": TaskList
+})
