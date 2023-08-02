@@ -1,4 +1,5 @@
 const path = require('path');
+const {readFileSync} = require("fs");
 
 module.exports = {
     entry: './src/index.ts',
@@ -6,6 +7,10 @@ module.exports = {
     devServer: {
         static: {
             directory: path.resolve(__dirname, 'dist'),
+        },
+        https: {
+            key: readFileSync("localhost.key"),
+            cert: readFileSync("localhost.crt"),
         },
         client: {
             overlay: {

@@ -136,3 +136,6 @@ dist
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
+
+*.key
+*.crt
