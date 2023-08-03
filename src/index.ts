@@ -1,30 +1,42 @@
-import * as m from "mithril";
 import TaskList from "./views/TaskList"
 import './styles.css'
 import TaskDetails from "./views/TaskDetails";
 import Login from "./views/Login";
 import Auth from "./models/Auth";
+import Container from "./components/Container";
+
+const m = require('mithril')
+
 
 const ROUTE_TYPES = {
     AUTH: "auth",
     PROTECTED: "protected"
 }
 
-const guard = (component, type: string) => {
-    if(Auth.isLogged()) {
-        if(type === ROUTE_TYPES.PROTECTED) {
-            return component
-        } else {
-            return m.route.set("/", null, {replace: true})
+const guard = (screen, type: string): any => {
+    const component = {view: () => m(Container, m(screen))}
+
+    return {
+        onmatch: () => {
+            if(type === ROUTE_TYPES.PROTECTED) {
+                if(Auth.isLogged())
+                    return component
+
+                m.route.set('/login')
+            } else if(type === ROUTE_TYPES.AUTH) {
+                if(!Auth.isLogged())
+                    return component
+
+                m.route.set('/')
+            }
+
+            m.route.SKIP
         }
     }
-
-    return m.route.set('/login', null, {replace: true})
 }
 
-
 m.route(document.body, "/", {
-    "/task/:id": guard(TaskDetails, ROUTE_TYPES.PROTECTED),
+    "/task/:id": guard(TaskDetails, ROUTE_TYPES.AUTH),
     "/login": guard(Login, ROUTE_TYPES.AUTH),
     "/": guard(TaskList, ROUTE_TYPES.PROTECTED)
 })

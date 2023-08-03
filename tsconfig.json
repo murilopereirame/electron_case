@@ -13,6 +13,7 @@
   "exclude": [ "node_modules"],
   "include": [
     "src/App.ts",
-    "src/Main.ts"
+    "src/Main.ts",
+    "src"
   ]
 }

@@ -4,6 +4,7 @@
 
 html, body {
     height: 100%;
+    overflow-x: hidden;
 }
 
 .material-icons.md-18 { font-size: 18px; }
@@ -13,4 +14,31 @@ html, body {
 
 .fade-in {
     animation: fade-in 0.5s;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48
+}
+
+.toast {
+    transform: translateX(calc(100% + 30px));
+    transition: all .75s cubic-bezier(0.68, -0.55, 0.25, 1.35);
+    overflow: hidden;
+}
+
+.toast.active{
+    transform: translateX(0);
+}
+
+@keyframes progress {
+    100%{
+        right: 100%;
+    }
+    0%{
+        right: 0;
+    }
 }

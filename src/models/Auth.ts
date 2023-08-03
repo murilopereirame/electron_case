@@ -1,4 +1,6 @@
 import * as m from "mithril"
+import Notification from "./Notification";
+import {EToast} from "../components/Toast";
 
 export interface IAuth {
     email: string
@@ -58,6 +60,21 @@ const Auth: IAuth = {
             Auth.setPassword("")
             return true
         } catch(e: any) {
+            switch(e.code) {
+                case 401:
+                    Notification.show(
+                      "User/Password invalid",
+                      EToast.ERROR
+                    )
+                    break;
+                default:
+                    Notification.show(
+                      "Sorry, we are unable to process your request at this moment =(",
+                      EToast.ERROR
+                    )
+                break;
+            }
+
             return false
         }
     }

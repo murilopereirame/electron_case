@@ -1,5 +1,6 @@
 const path = require('path');
 const {readFileSync} = require("fs");
+const webpack = require("webpack");
 
 module.exports = {
     entry: './src/index.ts',
