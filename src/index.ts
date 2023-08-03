@@ -5,7 +5,7 @@ import Login from "./views/Login";
 import Auth from "./models/Auth";
 import Container from "./components/Container";
 
-const m = require('mithril')
+import m from 'mithril'
 
 
 const ROUTE_TYPES = {

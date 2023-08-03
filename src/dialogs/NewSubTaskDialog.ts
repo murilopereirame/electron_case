@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 
 const NewSubTaskDialog = () => {
     let subTaskTitle = ""

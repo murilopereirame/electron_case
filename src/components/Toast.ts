@@ -1,4 +1,4 @@
-import * as m from "mithril";
+import m from "mithril";
 import Notification from "../models/Notification";
 
 export const EToast = {

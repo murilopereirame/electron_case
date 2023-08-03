@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import Toast, {EToast} from "./Toast";
 import Notification from '../models/Notification'
 

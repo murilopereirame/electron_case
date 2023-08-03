@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import Navbar from "../components/Navbar";
 import Task, {ITask} from "../models/Task";
 import Fab from "../components/Fab";

@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import Task from "../models/Task";
 import {handleModal} from "../views/TaskList";
 import {v4 as uuid4} from "uuid"

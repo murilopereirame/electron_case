@@ -1,5 +1,5 @@
 import {EToast} from "../components/Toast";
-import * as m from 'mithril'
+import m from 'mithril'
 
 const Notification = {
   isVisible: false,
