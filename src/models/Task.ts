@@ -1,6 +1,7 @@
 import * as m from "mithril"
 import SubTask, {ISubTask} from "./SubTask";
 import Auth, {IResponse} from "./Auth";
+import Loading from './Loading'
 import Notification from "./Notification";
 import {EToast} from "../components/Toast";
 
@@ -56,16 +57,17 @@ const Task: TTask = {
             }
         })
     },
-    loadList: () => {
-        m.request({
-            url: "https://spring.murilopereira.dev.br:8443/tasks/list",
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${Auth.getToken()}`
-            }
-        }).then((result: any) => {
+    loadList: async () => {
+        try {
+            const result: IResponse = await m.request({
+                url: "https://spring.murilopereira.dev.br:8443/tasks/list",
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${Auth.getToken()}`
+                }
+            })
             Task.list = result.data
-        }).catch((e) => {
+        } catch(e: any) {
             switch(e.code) {
                 case 401:
                     Notification.show(
@@ -80,7 +82,7 @@ const Task: TTask = {
                     )
                     break;
             }
-        })
+        }
     },
 
     updateTask: (index: number, task: ITask) => {

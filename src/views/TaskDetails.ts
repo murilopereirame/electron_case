@@ -7,6 +7,7 @@ import Overlay from "../components/Overlay";
 import Checkbox from "../components/Checkbox";
 import SubTask from "../models/SubTask";
 import {v4 as uuid4} from 'uuid'
+import Loading from "../models/Loading";
 
 const TaskDetails = () => {
     let task: ITask | undefined;
@@ -20,6 +21,7 @@ const TaskDetails = () => {
     const updateSubTask = async (subtaskId: string, done: boolean) => {
         const subtask = SubTask.subtasks.find((e) => e.uuid === subtaskId);
         try {
+            Loading.handleLoading()
             const result = await SubTask.updateSubtask({
                 ...subtask,
                 done
@@ -28,10 +30,13 @@ const TaskDetails = () => {
             subtask.done = done
         } catch (e: any) {
             console.log(e)
+        } finally {
+            Loading.handleLoading()
         }
     }
     const handleAddTask = async (content: string, done: boolean) => {
         try {
+            Loading.handleLoading()
             const subtask = await SubTask.addSubtask({
                 content,
                 done,
@@ -46,6 +51,8 @@ const TaskDetails = () => {
             )
         } catch(e: any) {
             console.log(e)
+        } finally {
+            Loading.handleLoading()
         }
 
         handleModal()
@@ -54,6 +61,7 @@ const TaskDetails = () => {
     return {
         oninit: async (node) => {
             try {
+                Loading.handleLoading()
                 const data = await SubTask.loadSubtasks(node.attrs.id)
                 if(!data.task)
                     return m.route.set("/")
@@ -62,6 +70,8 @@ const TaskDetails = () => {
                 document.title = `To Do - ${data.task.title}`
             } catch(e: any) {
                 console.log(e)
+            } finally {
+                Loading.handleLoading()
             }
         },
         view: () => {

@@ -1,5 +1,6 @@
 import m from 'mithril'
 import Auth from "../models/Auth";
+import Loading from "../models/Loading";
 
 const Login = {
     view: () => {
@@ -32,7 +33,7 @@ const Login = {
                     )
                 ]),
                 m("div.flex w-full mt-2", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
-                    onclick: () => Auth.login().then((result) => {result && m.route.set("/", null, {replace: true})}),
+                    onclick: () => {Loading.handleLoading(); Auth.login().then((result) => {result && m.route.set("/", null, {replace: true})}).finally(() => Loading.handleLoading())},
                     disabled: !Auth.canSubmit(),
                     "data-test": "new-subtask-create"
                 }, "LOGIN")])

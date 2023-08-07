@@ -31,7 +31,6 @@ const NewTaskDialog =  () => {
                         m("button.bg-spring-400 text-white rounded-md p-2 font-bold", {
                             onclick: () => {
                                 Task.addTask({
-                                        uuid: uuid4(),
                                         title: taskTitle,
                                         done: false
                                     });
