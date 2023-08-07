@@ -17,6 +17,7 @@
     "postinstall": "electron-builder install-app-deps",
     "build": "tsc && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && webpack && copy \"./public\" \"./dist\"",
     "watch": "tsc -w",
+    "install:clean": "(if exist yarn.lock del yarn.lock)&&(if exist node_modules rmdir /s/q node_modules)&&yarn install",
     "dev:web": "concurrently \"webpack serve --mode=development\" \"yarn tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\"",
     "dev:native": "nodemon -e ts --exec yarn start",
     "start": "yarn build && webpack && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && electron ./dist/App.js"

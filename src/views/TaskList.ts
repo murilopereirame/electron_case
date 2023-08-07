@@ -16,15 +16,15 @@ const TaskList = () => {
     return {
         oninit: () => {Task.loadList(); document.title = "To Do"},
         view: () => {
-            return m(".flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
+            return m(".flex flex-col max-w-full w-full min-h-full bg-charcoal-800 relative", [
                 m(Navbar),
                 m("div.flex flex-col mt-1", [
                     m("ul", {id: "task-list"}, Task.list.map(task => m("li", m(
                             Checkbox, {
-                            id: `tsk-${task.id}`,
+                            id: `tsk-${task.uuid}`,
                             label: task.title,
                             checked: task.done,
-                            href: `#!/task/${task.id}`,
+                            href: `#!/task/${task.uuid}`,
                             disabled: true
                         })))
                     )

@@ -14,7 +14,7 @@ const ROUTE_TYPES = {
 }
 
 const guard = (screen, type: string): any => {
-    const component = {view: () => m(Container, m(screen))}
+    const component = {view: (node) => m(Container, m(screen, node.attrs))}
 
     return {
         onmatch: () => {
@@ -36,7 +36,7 @@ const guard = (screen, type: string): any => {
 }
 
 m.route(document.body, "/", {
-    "/task/:id": guard(TaskDetails, ROUTE_TYPES.AUTH),
+    "/task/:id": guard(TaskDetails, ROUTE_TYPES.PROTECTED),
     "/login": guard(Login, ROUTE_TYPES.AUTH),
     "/": guard(TaskList, ROUTE_TYPES.PROTECTED)
 })

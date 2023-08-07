@@ -14,14 +14,18 @@ export interface IAuth {
     login: () => Promise<boolean>
 }
 
-interface ILoginResponse {
+export interface IResponse {
     message: string
+    data: any,
+    details: any[]
+    status: string
+}
+
+interface ILoginResponse extends IResponse {
     data: {
         token: string
         validUntil: string
     },
-    details: []
-    status: string
 }
 
 const Auth: IAuth = {

@@ -17,48 +17,64 @@ const TaskDetails = () => {
         showModal = !showModal;
     }
 
-    const updateSubTask = (subtaskId: string, done: boolean) => {
-        const subTask = SubTask.subtasks.find(st => st.id === subtaskId)
-        const index = SubTask.subtasks.findIndex(st => st.id === subTask.id)
+    const updateSubTask = async (subtaskId: string, done: boolean) => {
+        const subtask = SubTask.subtasks.find((e) => e.uuid === subtaskId);
+        try {
+            const result = await SubTask.updateSubtask({
+                ...subtask,
+                done
+            })
 
-        SubTask.updateSubtask(index, {
-            ...subTask,
-            done
-        })
-        Task.checkIsDone(task.id)
+            subtask.done = done
+        } catch (e: any) {
+            console.log(e)
+        }
     }
-    const handleAddTask = (content, done) => {
-        SubTask.addSubtask({
-            id: uuid4(),
-            content,
-            done,
-            taskId: task.id
-        })
+    const handleAddTask = async (content: string, done: boolean) => {
+        try {
+            const subtask = await SubTask.addSubtask({
+                content,
+                done,
+                tasks_idtask: task.uuid
+            })
 
-        Task.checkIsDone(task.id)
+            SubTask.subtasks.push(subtask.data)
+            SubTask.subtasks.sort(
+              (a, b) =>
+                a.content < b.content ? -1 :
+                  a.content > b.content ? 1 : 0
+            )
+        } catch(e: any) {
+            console.log(e)
+        }
+
         handleModal()
     }
 
     return {
-        oninit: (node) => {
-            task = Task.loadTask(node.attrs.id)
-            if (!task)
-                m.route.set("/")
+        oninit: async (node) => {
+            try {
+                const data = await SubTask.loadSubtasks(node.attrs.id)
+                if(!data.task)
+                    return m.route.set("/")
 
-            document.title = `To Do - ${task.title}`
-            SubTask.loadSubtasks(node.attrs.id)
+                task = data.task
+                document.title = `To Do - ${data.task.title}`
+            } catch(e: any) {
+                console.log(e)
+            }
         },
         view: () => {
             return m("div.flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
-                m(Navbar, {title: task.title, onclick: () => m.route.set("/"), icon: "arrow_back_ios"}),
+                m(Navbar, {title: task?.title, onclick: () => m.route.set("/"), icon: "arrow_back_ios"}),
                 m("div.flex flex-col mt-1",
-                    m("ul", {id: "subtask-list"}, SubTask.subtasks.map(task => m("li",
+                    m("ul", {id: "subtask-list"}, SubTask.subtasks.map(subtask => m("li",
                         m(Checkbox, {
-                            id: `stk-${task.id}`,
-                            label: task.content,
-                            checked: task.done,
+                            id: `stk-${subtask.uuid}`,
+                            label: subtask.content,
+                            checked: subtask.done,
                             disabled: false,
-                            onchange: (e: any) => updateSubTask(task.id, e.target.checked)
+                            onchange: (e: any) => updateSubTask(subtask.uuid, e.target.checked)
                         })))
                     )
                 ),
