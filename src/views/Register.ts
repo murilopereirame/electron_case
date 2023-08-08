@@ -2,17 +2,22 @@ import m from 'mithril'
 import Auth from "../models/Auth";
 import Loading from "../models/Loading";
 import {handleError} from "../utils/ErrorHandler";
+import Notification from "../models/Notification";
+import {EToast} from "../components/Toast";
 
-const Login = () => {
-
-  const doLogin = async () => {
+const Register = () => {
+  const handleRegister = async () => {
     try {
       Loading.handleLoading()
-      const result = await Auth.login()
+      const result = await Auth.register()
 
-      result && m.route.set("/", null, {replace: true})
+      result && m.route.set("/login", null, {replace: true})
+      Notification.show(
+        "User registered with success! 👥",
+        EToast.SUCCESS
+      )
     } catch(e: any) {
-      handleError(e.code, {401:"Email/Password invalid ⛔"})
+      handleError(e.code)
     } finally {
       Loading.handleLoading()
     }
@@ -48,13 +53,20 @@ const Login = () => {
               }
             )
           ]),
+          m("div.flex w-full mt-1", [
+            m("input[type=text].w-full bg-charcoal-50 rounded-md text-lg font-semibold pl-2",
+              {
+                placeholder: "Confirm Password",
+                value: Auth.confirmPassword,
+                onchange: (e) => Auth.setConfirmPassword(e.target.value),
+                type: "password",
+                "data-test": "new-subtask-content"
+              }
+            )
+          ]),
           m("div.flex w-full mt-2", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
-            onclick: doLogin,
-            disabled: !Auth.canSubmit(),
-            "data-test": "new-subtask-create"
-          }, "LOGIN")]),
-          m("div.flex w-full mt-2", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
-            onclick: () => m.route.set("/register"),
+            onclick: handleRegister,
+            disabled: !Auth.canRegister(),
             "data-test": "new-subtask-create"
           }, "REGISTER")])
         ])
@@ -63,4 +75,4 @@ const Login = () => {
   }
 }
 
-export default Login
+export default Register

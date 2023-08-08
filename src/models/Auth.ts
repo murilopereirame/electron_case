@@ -5,13 +5,17 @@ import {EToast} from "../components/Toast";
 export interface IAuth {
     email: string
     password: string
+    confirmPassword: string
     setEmail: (email: string) => void
     setPassword: (password: string) => void
+    setConfirmPassword: (password: string) => void
     canSubmit: () => boolean
+    canRegister: () => boolean
     setToken: (token: string, expDate: string) => void
     isLogged: () => boolean
     getToken: () => string
     login: () => Promise<boolean>
+    register: () => Promise<boolean>
 }
 
 export interface IResponse {
@@ -31,13 +35,19 @@ interface ILoginResponse extends IResponse {
 const Auth: IAuth = {
     email: "",
     password: "",
+    confirmPassword: "",
     setEmail: (email: string) => {
         Auth.email = email
     },
     setPassword: (password: string) => {
         Auth.password = password
     },
+    setConfirmPassword: (password: string) => {
+        Auth.confirmPassword = password
+    },
     canSubmit: () => Auth.email !== "" && Auth.password !== "",
+    canRegister: () => Auth.email !== "" && Auth.password !== "" &&
+      Auth.confirmPassword !== "" && Auth.password === Auth.confirmPassword,
     setToken: (token: string, expDate: string) => {
         localStorage.setItem("access_token", token)
         localStorage.setItem("exp_date", expDate)
@@ -62,6 +72,20 @@ const Auth: IAuth = {
         Auth.setEmail("")
         Auth.setPassword("")
         return true
+    },
+    register: async () => {
+        await m.request({
+            url: "https://spring.murilopereira.dev.br:8443/users/register",
+            body: {
+                email: Auth.email,
+                password: Auth.password
+            },
+            method: "POST"
+        })
+
+        Auth.setEmail("")
+        Auth.setPassword("")
+        return true;
     }
 }
 

@@ -6,6 +6,7 @@ import Auth from "./models/Auth";
 import Container from "./components/Container";
 
 import m from 'mithril'
+import Register from "./views/Register";
 
 
 const ROUTE_TYPES = {
@@ -38,5 +39,6 @@ const guard = (screen, type: string): any => {
 m.route(document.body, "/", {
     "/task/:id": guard(TaskDetails, ROUTE_TYPES.PROTECTED),
     "/login": guard(Login, ROUTE_TYPES.AUTH),
+    "/register": guard(Register, ROUTE_TYPES.AUTH),
     "/": guard(TaskList, ROUTE_TYPES.PROTECTED)
 })
