@@ -12,11 +12,13 @@ const Notification = {
     if(duration !== undefined) Notification.duration = duration
     Notification.isVisible = true
 
+    m.redraw()
+
     setTimeout(() => {
       Notification.dismiss()
     }, Notification.duration)
   },
-  dismiss: () => {console.log("Wow, dismiss...."); Notification.isVisible = false; m.redraw()}
+  dismiss: () => {Notification.isVisible = false; m.redraw()}
 }
 
 export default Notification
