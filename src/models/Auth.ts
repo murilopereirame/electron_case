@@ -62,27 +62,6 @@ const Auth: IAuth = {
         Auth.setEmail("")
         Auth.setPassword("")
         return true
-
-        try {
-
-        } catch(e: any) {
-            switch(e.code) {
-                case 401:
-                    Notification.show(
-                      "User/Password invalid",
-                      EToast.ERROR
-                    )
-                    break;
-                default:
-                    Notification.show(
-                      "Sorry, we are unable to process your request at this moment =(",
-                      EToast.ERROR
-                    )
-                break;
-            }
-
-            return false
-        }
     }
 }
 
