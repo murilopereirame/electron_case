@@ -48,12 +48,12 @@ const Login = () => {
               }
             )
           ]),
-          m("div.flex w-full mt-2", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
+          m("div.flex w-full mt-3", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
             onclick: doLogin,
             disabled: !Auth.canSubmit(),
             "data-test": "new-subtask-create"
           }, "LOGIN")]),
-          m("div.flex w-full mt-2", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
+          m("div.flex w-full mt-1", [m("button.bg-gold-400 text-white disabled:bg-charcoal-200 disabled:text-charcoal-50 rounded-md px-2 py-1 font-bold w-full", {
             onclick: () => m.route.set("/register"),
             "data-test": "new-subtask-create"
           }, "REGISTER")])

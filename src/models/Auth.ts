@@ -16,6 +16,7 @@ export interface IAuth {
     getToken: () => string
     login: () => Promise<boolean>
     register: () => Promise<boolean>
+    logout: () => void
 }
 
 export interface IResponse {
@@ -83,9 +84,20 @@ const Auth: IAuth = {
             method: "POST"
         })
 
-        Auth.setEmail("")
         Auth.setPassword("")
+        Auth.setConfirmPassword("")
+        Auth.setEmail("")
         return true;
+    },
+    logout: () => {
+        //I know that I should invalidate the JWT token and make a more robust deauth
+        //but as this project is just a case of study, I will not care about it
+        localStorage.clear()
+        Auth.setPassword("")
+        Auth.setConfirmPassword("")
+        Auth.setEmail("")
+
+        m.route.set("/login")
     }
 }
 
