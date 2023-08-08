@@ -2,10 +2,33 @@ import m from 'mithril'
 import Task from "../models/Task";
 import {handleModal} from "../views/TaskList";
 import {v4 as uuid4} from "uuid"
+import Notification from "../models/Notification";
+import {EToast} from "../components/Toast";
+import {handleError} from "../utils/ErrorHandler";
+import Loading from "../models/Loading";
 
 const NewTaskDialog =  () => {
     let taskTitle = ""
 
+    const addTask = async () => {
+      try {
+        Loading.handleLoading()
+        const result = await Task.addTask({
+          title: taskTitle,
+          done: false
+        });
+
+        taskTitle = "";
+
+        result && Notification.show("Task created with success 🙌", EToast.SUCCESS)
+      } catch(e: any) {
+        handleError(e.code)
+      } finally {
+        handleModal()
+        Loading.handleLoading()
+      }
+
+    }
     return {
         view: (node) => {
             return m(
@@ -29,14 +52,7 @@ const NewTaskDialog =  () => {
                     ),
                     m("div.flex justify-end items-center w-full mt-4", [
                         m("button.bg-spring-400 text-white rounded-md p-2 font-bold", {
-                            onclick: () => {
-                                Task.addTask({
-                                        title: taskTitle,
-                                        done: false
-                                    });
-                                taskTitle = "";
-                                handleModal()
-                            },
+                            onclick: addTask,
                             "data-test": "new-task-create-button"
                         }, "CREATE")
                     ])

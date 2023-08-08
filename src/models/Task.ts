@@ -23,76 +23,36 @@ interface ITaskDetailsResponse extends IResponse {
 type TTask = {
     list: ITask[],
     loadList: () => void,
-    addTask: (task: ITask) => void,
-    updateTask: (index: number, task: ITask) => void
+    addTask: (task: ITask) => Promise<boolean>,
 }
 
 
 const Task: TTask = {
     list: [],
-    addTask: (task: ITask) => {
-        m.request({
+    addTask: async (task: ITask) => {
+        const result: IResponse = await m.request({
             url: "https://spring.murilopereira.dev.br:8443/tasks/new",
             method: "POST",
             body: task,
             headers: {
                 "Authorization": `Bearer ${Auth.getToken()}`
             }
-        }).then((result: any) => {
-            Task.list.push(result.data)
-        }).catch((e) => {
-            switch(e.code) {
-                case 401:
-                    Notification.show(
-                      "User not authenticated",
-                      EToast.ERROR
-                    )
-                    break;
-                default:
-                    Notification.show(
-                      "Sorry, we are unable to process your request at this moment =(",
-                      EToast.ERROR
-                    )
-                    break;
-            }
         })
+
+        Task.list.push(result.data)
+
+        return true
     },
     loadList: async () => {
-        try {
-            const result: IResponse = await m.request({
-                url: "https://spring.murilopereira.dev.br:8443/tasks/list",
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${Auth.getToken()}`
-                }
-            })
-            Task.list = result.data
-        } catch(e: any) {
-            switch(e.code) {
-                case 401:
-                    Notification.show(
-                      "User not authenticated",
-                      EToast.ERROR
-                    )
-                    break;
-                default:
-                    Notification.show(
-                      "Sorry, we are unable to process your request at this moment =(",
-                      EToast.ERROR
-                    )
-                    break;
+        const result: IResponse = await m.request({
+            url: "https://spring.murilopereira.dev.br:8443/tasks/list",
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${Auth.getToken()}`
             }
-        }
-    },
+        })
 
-    updateTask: (index: number, task: ITask) => {
-        const taskListJSON = localStorage.getItem("tasks") ?? "[]"
-        const taskList = JSON.parse(taskListJSON)
-
-        taskList[index] = task;
-
-        Task.list = taskList
-        localStorage.setItem("tasks", JSON.stringify(taskList))
+        Task.list = result.data
     },
 }
 

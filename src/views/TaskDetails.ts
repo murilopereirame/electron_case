@@ -1,13 +1,15 @@
 import m from 'mithril'
 import Navbar from "../components/Navbar";
-import Task, {ITask} from "../models/Task";
+import {ITask} from "../models/Task";
 import Fab from "../components/Fab";
 import NewSubTaskDialog from "../dialogs/NewSubTaskDialog";
 import Overlay from "../components/Overlay";
 import Checkbox from "../components/Checkbox";
 import SubTask from "../models/SubTask";
-import {v4 as uuid4} from 'uuid'
 import Loading from "../models/Loading";
+import {handleError} from "../utils/ErrorHandler";
+import Notification from "../models/Notification";
+import {EToast} from "../components/Toast";
 
 const TaskDetails = () => {
     let task: ITask | undefined;
@@ -22,19 +24,19 @@ const TaskDetails = () => {
         const subtask = SubTask.subtasks.find((e) => e.uuid === subtaskId);
         try {
             Loading.handleLoading()
-            const result = await SubTask.updateSubtask({
+            await SubTask.updateSubtask({
                 ...subtask,
                 done
             })
 
             subtask.done = done
         } catch (e: any) {
-            console.log(e)
+            handleError(e.code)
         } finally {
             Loading.handleLoading()
         }
     }
-    const handleAddTask = async (content: string, done: boolean) => {
+    const handleAddSubTask = async (content: string, done: boolean) => {
         try {
             Loading.handleLoading()
             const subtask = await SubTask.addSubtask({
@@ -49,8 +51,13 @@ const TaskDetails = () => {
                 a.content < b.content ? -1 :
                   a.content > b.content ? 1 : 0
             )
+
+            Notification.show(
+              "Subtask added with success! 🗹",
+              EToast.SUCCESS
+              )
         } catch(e: any) {
-            console.log(e)
+            handleError(e.code)
         } finally {
             Loading.handleLoading()
         }
@@ -69,7 +76,7 @@ const TaskDetails = () => {
                 task = data.task
                 document.title = `To Do - ${data.task.title}`
             } catch(e: any) {
-                console.log(e)
+                handleError(e.code)
             } finally {
                 Loading.handleLoading()
             }
@@ -88,7 +95,7 @@ const TaskDetails = () => {
                         })))
                     )
                 ),
-                showModal && m(Overlay, { onclick: handleModal}, [m(NewSubTaskDialog, {onConfirm: handleAddTask})]),
+                showModal && m(Overlay, { onclick: handleModal}, [m(NewSubTaskDialog, {onConfirm: handleAddSubTask})]),
                 m(Fab, {onClick: handleModal, "data-test": "new-subtask-button"})
             ])
         }

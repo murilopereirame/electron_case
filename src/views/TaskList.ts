@@ -6,6 +6,7 @@ import Task from "../models/Task";
 import NewTaskDialog from "../dialogs/NewTaskDialog";
 import Overlay from "../components/Overlay";
 import Loading from "../models/Loading";
+import {handleError} from "../utils/ErrorHandler";
 
 let showModal = false;
 
@@ -16,10 +17,15 @@ export const handleModal = () => {
 const TaskList = () => {
     return {
         oninit: async () => {
-          Loading.handleLoading()
-          await Task.loadList();
-          document.title = "To Do"
-          Loading.handleLoading()
+          try {
+            Loading.handleLoading()
+            await Task.loadList();
+            document.title = "To Do"
+          } catch (e: any) {
+            handleError(e.code)
+          } finally {
+            Loading.handleLoading()
+          }
         },
         view: () => {
             return m(".flex flex-col max-w-full w-full min-h-full bg-charcoal-800 relative", [

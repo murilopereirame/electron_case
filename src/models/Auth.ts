@@ -49,20 +49,22 @@ const Auth: IAuth = {
         return localStorage.getItem("access_token")
     },
     login: async () => {
-        try {
-            const loginResult: ILoginResponse = await m.request({
-                url: "https://spring.murilopereira.dev.br:8443/users/auth",
-                body: {
-                    email: Auth.email,
-                    password: Auth.password
-                },
-                method: "POST"
-            })
+        const loginResult: ILoginResponse = await m.request({
+            url: "https://spring.murilopereira.dev.br:8443/users/auth",
+            body: {
+                email: Auth.email,
+                password: Auth.password
+            },
+            method: "POST"
+        })
 
-            Auth.setToken(loginResult.data.token, loginResult.data.validUntil)
-            Auth.setEmail("")
-            Auth.setPassword("")
-            return true
+        Auth.setToken(loginResult.data.token, loginResult.data.validUntil)
+        Auth.setEmail("")
+        Auth.setPassword("")
+        return true
+
+        try {
+
         } catch(e: any) {
             switch(e.code) {
                 case 401:
