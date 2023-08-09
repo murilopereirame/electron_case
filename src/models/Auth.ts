@@ -61,7 +61,7 @@ const Auth: IAuth = {
     },
     login: async () => {
         const loginResult: ILoginResponse = await m.request({
-            url: "https://spring.murilopereira.dev.br:8443/users/auth",
+            url: `${process.env.BASE_URL}/users/auth`,
             body: {
                 email: Auth.email,
                 password: Auth.password
@@ -76,7 +76,7 @@ const Auth: IAuth = {
     },
     register: async () => {
         await m.request({
-            url: "https://spring.murilopereira.dev.br:8443/users/register",
+            url: `${process.env.BASE_URL}/users/register`,
             body: {
                 email: Auth.email,
                 password: Auth.password

@@ -26,7 +26,7 @@ const SubTask: TSubTask = {
     loadSubtasks: async (taskId: string) => {
         const result: ITaskSubTaskResponse = await m.request({
             method: "GET",
-            url: `https://spring.murilopereira.dev.br:8443/subtasks/list/${taskId}`,
+            url: `${process.env.BASE_URL}/subtasks/list/${taskId}`,
             headers: {
                 "Authorization": `Bearer ${Auth.getToken()}`
             },
@@ -42,7 +42,7 @@ const SubTask: TSubTask = {
     addSubtask: async (subtask: ISubTask) => {
         return await m.request({
             method: "POST",
-            url: `https://spring.murilopereira.dev.br:8443/subtasks/new/${subtask.tasks_idtask}`,
+            url: `${process.env.BASE_URL}/subtasks/new/${subtask.tasks_idtask}`,
             headers: {
                 "Authorization": `Bearer ${Auth.getToken()}`
             },
@@ -52,7 +52,7 @@ const SubTask: TSubTask = {
     updateSubtask: async (subtask: ISubTask) => {
         return await m.request({
             method: "PATCH",
-            url: `https://spring.murilopereira.dev.br:8443/subtasks/update/${subtask.tasks_idtask}/${subtask.uuid}`,
+            url: `${process.env.BASE_URL}/subtasks/update/${subtask.tasks_idtask}/${subtask.uuid}`,
             headers: {
                 "Authorization": `Bearer ${Auth.getToken()}`
             },

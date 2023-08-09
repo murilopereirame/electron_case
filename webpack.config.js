@@ -1,6 +1,6 @@
 const path = require('path');
 const {readFileSync} = require("fs");
-const webpack = require("webpack");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: './src/index.ts',
@@ -40,6 +40,12 @@ module.exports = {
 
         ],
     },
+    plugins: [
+        new Dotenv({
+            path: './.env',
+            systemvars: true
+        })
+    ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },

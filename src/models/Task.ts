@@ -31,7 +31,7 @@ const Task: TTask = {
     list: [],
     addTask: async (task: ITask) => {
         const result: IResponse = await m.request({
-            url: "https://spring.murilopereira.dev.br:8443/tasks/new",
+            url: `${process.env.BASE_URL}/tasks/new`,
             method: "POST",
             body: task,
             headers: {
@@ -45,7 +45,7 @@ const Task: TTask = {
     },
     loadList: async () => {
         const result: IResponse = await m.request({
-            url: "https://spring.murilopereira.dev.br:8443/tasks/list",
+            url: `${process.env.BASE_URL}/tasks/list`,
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${Auth.getToken()}`
