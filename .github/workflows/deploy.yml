@@ -1,0 +1,118 @@
+name: ✔️ To Do CI/CD
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  BASE_URL: ${{vars.BASE_URL}}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build ⚙
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 🛠 Install Yarn
+        run: npm install -g yarn
+
+      - name: 🧰 Install Dependencies
+        run: yarn install:clean
+
+      - name: 🔗 Build Web App
+        run: yarn build
+
+      - name: 📁 Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: build
+
+  pack-windows:
+    runs-on: windows-latest
+    name: Pack Windows 📦
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 📂 Download Builded App
+        uses: actions/download-artifact@master
+        with:
+          name: build
+          path: build
+
+      - name: 🪟 Build Windows Artifact
+        run: "yarn dist --win"
+
+      - name: 💾 Publish Artifact
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          files:
+            dist/
+        run: gh release upload ${{github.ref_name}} "dist/To Do.exe"
+
+  pack-linux:
+    runs-on: ubuntu-latest
+    name: Pack Ubuntu 📦
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 📂 Download Builded App
+        uses: actions/download-artifact@master
+        with:
+          name: build
+          path: build
+
+      - name: 🐧 Build Linux Artifact
+        run: "yarn dist --linux"
+
+      - name: 💾 Publish Artifact
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          files:
+            dist/
+        run: gh release upload ${{github.ref_name}} "dist/To Do.AppImage"
+
+  pack-mac:
+    runs-on: macos-latest
+    name: Pack macOS 📦
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 📂 Download Builded App
+        uses: actions/download-artifact@master
+        with:
+          name: build
+          path: build
+
+      - name: 🍎 Build macOS Artifact
+        run: "yarn dist --mac"
+
+      - name: 💾 Publish Artifact
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          files:
+            dist/
+        run: gh release upload ${{github.ref_name}} "dist/To Do.dmg"
+
+  deploy-web:
+    runs-on: ubuntu-latest
+    name: Deploy Web 🌐
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 💾 Upload files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{secrets.FTP_SERVER}}
+          username: ${secrets.FTP_USERNAME}}
+          password: ${{ secrets.FTP_PASSWORD }}
