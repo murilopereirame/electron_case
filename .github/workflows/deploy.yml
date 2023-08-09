@@ -20,7 +20,7 @@ jobs:
         run: npm install -g yarn
 
       - name: 🧰 Install Dependencies
-        run: yarn install:clean
+        run: yarn install
 
       - name: 🔗 Build Web App
         run: yarn build
