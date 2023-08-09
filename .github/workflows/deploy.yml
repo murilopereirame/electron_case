@@ -50,10 +50,10 @@ jobs:
       - name: 💾 Publish Artifact
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: gh release upload ${{github.ref_name}} "dist/To Do.exe"
         with:
           files:
-            dist/
-        run: gh release upload ${{github.ref_name}} "dist/To Do.exe"
+            "dist/To Do.exe"
 
   pack-linux:
     runs-on: ubuntu-latest
@@ -74,10 +74,10 @@ jobs:
       - name: 💾 Publish Artifact
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: gh release upload ${{github.ref_name}} "dist/To Do.AppImage"
         with:
           files:
-            dist/
-        run: gh release upload ${{github.ref_name}} "dist/To Do.AppImage"
+            "dist/To Do.AppImage"
 
   pack-mac:
     runs-on: macos-latest
@@ -98,10 +98,10 @@ jobs:
       - name: 💾 Publish Artifact
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: gh release upload ${{github.ref_name}} "dist/To Do.dmg"
         with:
           files:
-            dist/
-        run: gh release upload ${{github.ref_name}} "dist/To Do.dmg"
+            "dist/To Do.dmg"
 
   deploy-web:
     runs-on: ubuntu-latest
