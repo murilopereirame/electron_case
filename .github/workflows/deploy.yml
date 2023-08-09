@@ -48,13 +48,11 @@ jobs:
         run: "yarn dist --win"
 
       - name: 💾 Publish Artifact
-        uses: actions/checkout@v3
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files:
             "dist/To Do.exe"
-        run: gh release upload ${{github.ref_name}} "dist/To Do.exe"
 
   pack-linux:
     runs-on: ubuntu-latest
@@ -73,13 +71,11 @@ jobs:
         run: "yarn dist --linux"
 
       - name: 💾 Publish Artifact
-        uses: actions/checkout@v3
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files:
             "dist/To Do.AppImage"
-        run: gh release upload ${{github.ref_name}} "dist/To Do.AppImage"
 
   pack-mac:
     runs-on: macos-latest
@@ -98,13 +94,11 @@ jobs:
         run: "yarn dist --mac"
 
       - name: 💾 Publish Artifact
-        uses: actions/checkout@v3
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files:
             "dist/To Do.dmg"
-        run: gh release upload ${{github.ref_name}} "dist/To Do.dmg"
 
   deploy-web:
     runs-on: ubuntu-latest
