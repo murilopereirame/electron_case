@@ -1,24 +1,43 @@
 {
   "name": "electron-case",
   "version": "1.0.0",
+  "main": "dist/App.js",
   "description": "A study case of electron",
   "repository": "https://github.com/murilopereirame/electron-case",
   "author": "Murilo Pereira",
   "license": "MIT",
   "build": {
-    "appId": "br.dev.murilopereira.electron",
+    "asar": true,
+    "files": [ "./dist/**/*" ],
+    "appId": "br.dev.murilopereira.todo",
+    "copyright": "Copyright © 2023 ${author}",
+    "productName": "To Do",
+    "win": {
+      "target": "portable",
+      "icon": "public/favicon.ico",
+      "artifactName": "${productName}.${ext}"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Office",
+      "icon": "public/icon.png",
+      "artifactName": "${productName}.${ext}"
+    },
     "mac": {
-      "category": "your.app.category.type"
+      "target": "dmg",
+      "category": "public.app-category.productivity",
+      "icon": "public/icon.png",
+      "artifactName": "${productName}.${ext}"
     }
   },
   "scripts": {
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "build": "tsc && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && webpack && copy \"./public\" \"./dist\"",
+    "build": "tsc && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && webpack && cp -r \"./public\" \"./dist\"",
     "watch": "tsc -w",
     "install:clean": "(if exist yarn.lock del yarn.lock)&&(if exist node_modules rmdir /s/q node_modules)&&yarn install",
-    "dev:web": "concurrently \"webpack serve --mode=development\" \"yarn tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\"",
+    "dev:web": "cp -r \"./public\" \"./dist\" && concurrently \"webpack serve --mode=development\" \"yarn tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\"",
     "dev:native": "nodemon -e ts --exec yarn start",
     "start": "yarn build && webpack && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && electron ./dist/App.js"
   },
@@ -29,6 +48,7 @@
     "autoprefixer": "^10.4.14",
     "concurrently": "^8.2.0",
     "css-loader": "^6.8.1",
+    "dotenv-webpack": "^8.0.1",
     "electron": "^25.3.0",
     "electron-builder": "^24.4.0",
     "fs": "^0.0.1-security",

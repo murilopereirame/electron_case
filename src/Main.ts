@@ -1,5 +1,4 @@
-import { BrowserWindow } from 'electron';
-
+import { BrowserWindow, Menu } from 'electron';
 export default class Main {
     static mainWindow: Electron.BrowserWindow;
     static application: Electron.App;
@@ -26,6 +25,20 @@ export default class Main {
     static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
         Main.BrowserWindow = browserWindow;
         Main.application = app;
+
+        const isMac = process.platform === 'darwin'
+
+        const menu = Menu.buildFromTemplate([
+            {
+                label: 'File',
+                submenu: [
+                    isMac ? { role: 'close' } : { role: 'quit' }
+                ]
+            }
+        ])
+
+        Menu.setApplicationMenu(menu)
+
         Main.application.on('window-all-closed', Main.onWindowAllClosed);
         Main.application.on('ready', Main.onReady);
     }

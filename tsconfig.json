@@ -12,10 +12,9 @@
     "noImplicitAny": false,
     "outDir": "dist",
   },
-  "exclude": [ "node_modules"],
+  "exclude": [ "node_modules", "src/*/*", "src/index.ts"],
   "include": [
     "src/App.ts",
-    "src/Main.ts",
-    "src"
+    "src/Main.ts"
   ]
 }
