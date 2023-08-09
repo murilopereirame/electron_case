@@ -82,7 +82,7 @@ const TaskDetails = () => {
             }
         },
         view: () => {
-            return m("div.flex flex-col max-w-full w-full h-full bg-charcoal-800 relative", [
+            return m("div.flex flex-col max-w-full w-full min-h-full bg-charcoal-800 relative", [
                 m(Navbar, {title: task?.title, onclick: () => m.route.set("/"), icon: "arrow_back_ios"}),
                 m("div.flex flex-col mt-1",
                     m("ul", {id: "subtask-list"}, SubTask.subtasks.map(subtask => m("li",
