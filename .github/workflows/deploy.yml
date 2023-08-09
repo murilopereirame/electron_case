@@ -43,10 +43,13 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
-          path: build
+          path: dist
 
-      - name: 🛠 Install Electron Builder
-        run: npm install -g electron-builder
+      - name: 🛠 Install Yarn
+        run: npm install -g yarn
+
+      - name: 🧰 Install Dependencies
+        run: yarn install
 
       - name: 🪟 Build Windows Artifact
         run: "yarn dist --win"
@@ -70,10 +73,13 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
-          path: build
+          path: dist
 
-      - name: 🛠 Install Electron Builder
-        run: npm install -g electron-builder
+      - name: 🛠 Install Yarn
+        run: npm install -g yarn
+
+      - name: 🧰 Install Dependencies
+        run: yarn install
 
       - name: 🐧 Build Linux Artifact
         run: "yarn dist --linux"
@@ -97,10 +103,13 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
-          path: build
+          path: dist
 
-      - name: 🛠 Install Electron Builder
-        run: npm install -g electron-builder
+      - name: 🛠 Install Yarn
+        run: npm install -g yarn
+
+      - name: 🧰 Install Dependencies
+        run: yarn install
 
       - name: 🍎 Build macOS Artifact
         run: "yarn dist --mac"
