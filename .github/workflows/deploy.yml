@@ -7,6 +7,7 @@ on:
 
 env:
   BASE_URL: ${{vars.BASE_URL}}
+  GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
   build:
@@ -33,6 +34,8 @@ jobs:
 
   pack-windows:
     runs-on: windows-latest
+    permissions:
+      contents: write
     needs: build
     name: Pack Windows 📦
     steps:
@@ -63,6 +66,8 @@ jobs:
 
   pack-linux:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: build
     name: Pack Ubuntu 📦
     steps:
@@ -93,6 +98,8 @@ jobs:
 
   pack-mac:
     runs-on: macos-latest
+    permissions:
+      contents: write
     needs: build
     name: Pack macOS 📦
     steps:
@@ -134,4 +141,4 @@ jobs:
         with:
           server: ${{secrets.FTP_SERVER}}
           username: ${secrets.FTP_USERNAME}}
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{secrets.FTP_PASSWORD}}
