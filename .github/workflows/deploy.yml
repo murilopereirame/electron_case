@@ -48,6 +48,7 @@ jobs:
         run: "yarn dist --win"
 
       - name: 💾 Publish Artifact
+        uses: actions/checkout@v3
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release upload ${{github.ref_name}} "dist/To Do.exe"
@@ -72,6 +73,7 @@ jobs:
         run: "yarn dist --linux"
 
       - name: 💾 Publish Artifact
+        uses: actions/checkout@v3
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release upload ${{github.ref_name}} "dist/To Do.AppImage"
@@ -96,6 +98,7 @@ jobs:
         run: "yarn dist --mac"
 
       - name: 💾 Publish Artifact
+        uses: actions/checkout@v3
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release upload ${{github.ref_name}} "dist/To Do.dmg"
