@@ -37,7 +37,7 @@
     "build": "tsc && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && webpack && cp -r \"./public\" \"./dist\"",
     "watch": "tsc -w",
     "install:clean": "(if exist yarn.lock del yarn.lock)&&(if exist node_modules rmdir /s/q node_modules)&&yarn install",
-    "dev:web": "cp -r \"./public\" \"./dist\" && concurrently \"webpack serve --mode=development\" \"yarn tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\"",
+    "dev:web": "cp -r \"./public\" \"./dist\" && concurrently \"webpack serve --mode=development --config webpack.config.dev.js\" \"yarn tailwindcss -i ./src/styles.css -o ./dist/output.css --watch\"",
     "dev:native": "nodemon -e ts --exec yarn start",
     "start": "yarn build && webpack && yarn tailwindcss -i ./src/styles.css -o ./dist/output.css && electron ./dist/App.js"
   },

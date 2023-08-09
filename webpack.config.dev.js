@@ -5,6 +5,27 @@ const Dotenv = require('dotenv-webpack');
 module.exports = {
     entry: './src/index.ts',
     devtool: 'inline-source-map',
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, 'dist'),
+        },
+        https: {
+            key: readFileSync("localhost.key"),
+            cert: readFileSync("localhost.crt"),
+        },
+        client: {
+            overlay: {
+                errors: true,
+                warnings: false,
+                runtimeErrors: true
+            }
+        },
+        port: 3001,
+        open: true,
+        hot: true,
+        compress: true,
+        historyApiFallback: true,
+    },
     module: {
         rules: [
             {
