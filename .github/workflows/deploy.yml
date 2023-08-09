@@ -45,6 +45,9 @@ jobs:
           name: build
           path: build
 
+      - name: 🛠 Install Electron Builder
+        run: npm install -g electron-builder
+
       - name: 🪟 Build Windows Artifact
         run: "yarn dist --win"
 
@@ -69,6 +72,9 @@ jobs:
           name: build
           path: build
 
+      - name: 🛠 Install Electron Builder
+        run: npm install -g electron-builder
+
       - name: 🐧 Build Linux Artifact
         run: "yarn dist --linux"
 
@@ -92,6 +98,9 @@ jobs:
         with:
           name: build
           path: build
+
+      - name: 🛠 Install Electron Builder
+        run: npm install -g electron-builder
 
       - name: 🍎 Build macOS Artifact
         run: "yarn dist --mac"
